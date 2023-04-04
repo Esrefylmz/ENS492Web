@@ -11,7 +11,7 @@
       <label for="password">Password:</label>
       <input type="password" id="password" v-model="password">
       
-      <router-link to="/buildings"><button type="submit">Login</button></router-link>
+      <router-link to="/companyusers"><button type="submit">Login</button></router-link>
     </form>
   </div>
 </template>
