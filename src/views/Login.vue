@@ -9,14 +9,15 @@
       <label for="username">Username:</label>
       <input type="text" id="username" v-model="username">
       <label for="password">Password:</label>
-      <input type="password" id="password" v-model="password">
-      
-      <router-link to="/companyusers"><button type="submit">Login</button></router-link>
+      <input type="password" id="password" v-model="password">     
+      <button type="submit" @click="login">Login</button>
     </form>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   data() {
     return {
@@ -25,8 +26,20 @@ export default {
     }
   },
   methods: {
-    login() {
-      // Call login API with this.username and this.password
+    async login() {
+      try {
+        const response = await axios.post('https://localhost:7264/api/CompanyUsers', {
+          username: this.username,
+          password: this.password
+        })
+        if (response.status === 200) {
+          console.log('OK')
+        } else {
+          console.log('Error')
+        }
+      } catch (error) {
+        console.error(error)
+      }
     }
   }
 }
