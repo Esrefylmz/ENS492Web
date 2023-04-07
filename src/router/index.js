@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import CompanyUsers from '../views/CompanyUser.vue'
+import CompanyUsers from '../views/Companies.vue'
 import Login from '../views/Login.vue'
 
 Vue.use(VueRouter)
@@ -26,9 +26,19 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/Devices.vue')
   },
   {
-    path: '/companyusers',
-    name: 'companyusers',
-    component: () => import(/* webpackChunkName: "about" */ '../views/CompanyUser.vue')
+    path: '/admins',
+    name: 'admins',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Admins.vue')
+  },
+  {
+    path: '/viewers',
+    name: 'viewers',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Viewers.vue')
+  },
+  {
+    path: '/companies',
+    name: 'companies',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Companies.vue')
 
   }
 ]
