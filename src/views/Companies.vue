@@ -1,6 +1,9 @@
 <template>
   <div class="buildings">
     <h1>Buildings</h1>
+    <div v-if="localStorageMail">
+      <button  class="logout-button" @click="logout">Logout</button>
+    </div>
     <ul>
       <li v-for="(building, index) in buildings" :key="index" class="building">
         <div class="building-info">
@@ -29,9 +32,14 @@ export default {
       this.$router.push('/');
     }
     else{
-      console.log("mail var")
+      //console.log("mail var")
     }
     this.fetchBuildings()
+  },
+  computed: {
+    localStorageMail() {
+      return localStorage.getItem("mail");
+    },
   },
   methods: {
     fetchBuildings() {
@@ -53,7 +61,11 @@ export default {
     deleteBuilding(index) {
       // Implement delete building functionality
       console.log(`Deleting building ${index}`)
-    }
+    },
+    logout() {
+      localStorage.removeItem("mail");
+      this.$router.push("/");
+    },
   }
 }
 </script>
@@ -91,6 +103,9 @@ li {
   background-color: #4CAF50;
   color: white;
   border: none;
+  width: 60px;
+  height: 40px;
+  font-size: 14px;
   border-radius: 5px;
   padding: 5px 10px;
   margin-right: 10px;
@@ -100,8 +115,31 @@ li {
   background-color: #f44336;
   color: white;
   border: none;
+  width: 60px;
+  height: 40px;
+  font-size: 14px;
   border-radius: 5px;
   padding: 5px 10px;
   cursor: pointer;
 }
+.logout-button {
+  position: absolute;
+  top: 120px;
+  right: 50px;
+  padding: 5px 10px;
+  cursor: pointer;
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  width: 100px;
+  height: 50px;
+  font-size: 24px;
+}
+
+.logout-button:hover {
+  transform: scale(1.1);
+}
+
+
 </style>
