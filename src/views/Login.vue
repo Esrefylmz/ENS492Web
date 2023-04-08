@@ -12,6 +12,7 @@
 
 <script>
 import axios from 'axios'
+import { mapActions } from 'vuex'
 
 export default {
   data() {
@@ -21,6 +22,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions('auth', ['login', 'logout']),
     async login() {
       try {
         const response = await axios.post('http://localhost:5063/api/CompanyUserAuth/LoginCompanyUser', {
@@ -28,7 +30,13 @@ export default {
           password: this.password
         })
         if (response.status === 200) {
+          console.log(response.data)
           if (response.data.userType === "admin") {
+            const userMail = response.data.usermail
+            const uID = response.data.userId
+            localStorage.setItem('mail', userMail)
+            localStorage.setItem('userID', uID)
+            
             console.log('Login Succesful')
             this.$router.push('/companies')
           }

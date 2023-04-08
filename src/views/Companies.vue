@@ -24,6 +24,13 @@ export default {
   },
   created() {
     // Call API to fetch buildings here
+    
+    if (localStorage.getItem('mail') == null){
+      this.$router.push('/');
+    }
+    else{
+      console.log("mail var")
+    }
     this.fetchBuildings()
   },
   methods: {
