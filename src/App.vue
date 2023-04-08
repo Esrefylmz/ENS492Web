@@ -3,7 +3,7 @@
     <nav>
       <router-link to="/">Login</router-link> |
       <router-link to="/Register">Register</router-link> |
-      <router-link to="/companies">Companies</router-link> |
+      <router-link to="/companies">Buildings</router-link> |
       <router-link to="/devices">Devices</router-link> |
       <router-link to="/admins">Admins</router-link> | 
       <router-link to="/viewers">Viewers</router-link> 

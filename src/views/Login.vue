@@ -1,16 +1,11 @@
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
-  </div>
-</template>
-<template>
   <div class="login-container">
     <form @submit.prevent="login">
-      <label for="username">Username:</label>
-      <input type="text" id="username" v-model="username">
+      <label for="mail">Mail:</label>
+      <input type="text" id="mail" v-model="mail">
       <label for="password">Password:</label>
       <input type="password" id="password" v-model="password">     
-      <button type="submit" @click="login">Login</button>
+      <button type="submit">Login</button>
     </form>
   </div>
 </template>
@@ -21,21 +16,27 @@ import axios from 'axios'
 export default {
   data() {
     return {
-      username: '',
+      mail: '',
       password: ''
     }
   },
   methods: {
     async login() {
       try {
-        const response = await axios.post('https://localhost:7264/api/CompanyUsers', {
-          username: this.username,
+        const response = await axios.post('http://localhost:5063/api/CompanyUserAuth/LoginCompanyUser', {
+          mail: this.mail,
           password: this.password
         })
         if (response.status === 200) {
-          console.log('OK')
+          if (response.data.userType === "admin") {
+            console.log('Login Succesful')
+            this.$router.push('/companies')
+          }
+          else {
+            alert('You do not have permission to access this page.')
+          }
         } else {
-          console.log('Error')
+          alert('Incorrect Mail or password')
         }
       } catch (error) {
         console.error(error)

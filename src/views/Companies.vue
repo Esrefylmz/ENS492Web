@@ -1,81 +1,100 @@
 <template>
-  <div class="container">
-    <button class="btn btn-primary" @click="fetchData">Fetch Data</button>
-
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Company ID</th>
-          <th>Name</th>
-          <th>Domain</th>
-          <th>SSID</th>
-          <th>Broker</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="company in companies" :key="company.companyId">
-          <td>{{ company.companyId }}</td>
-          <td>{{ company.name }}</td>
-          <td>{{ company.domain }}</td>
-          <td>{{ company.ssid }}</td>
-          <td>{{ company.broker }}</td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="buildings">
+    <h1>Buildings</h1>
+    <ul>
+      <li v-for="(building, index) in buildings" :key="index" class="building">
+        <div class="building-info">
+          <div class="building-name">{{ building.name }}</div>
+          <div class="building-buttons">
+            <button class="edit-button" @click="editBuilding(index)">Edit</button>
+            <button class="delete-button" @click="deleteBuilding(index)">Delete</button>
+          </div>
+        </div>
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
-const fetchData = async () => {
-  try {
-    const response = await fetch("https://localhost:7264/api/CompanyContoller", {
-      method: "GET",
-      withCredentials: true,
-      cache: "no-cache",
-      headers: {
-        "Content-Type": "application/json"
-      },
-    });
-
-    return response.json();
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-};
-
 export default {
   data() {
     return {
-      companies: []
+      buildings: []
     }
   },
+  created() {
+    // Call API to fetch buildings here
+    this.fetchBuildings()
+  },
   methods: {
-    async fetchData() {
-      try {
-        const data = await fetchData();
-        this.companies = data;
-      } catch (error) {
-        console.error(error);
-      }
+    fetchBuildings() {
+      // Replace the API call with your own implementation to fetch buildings
+      // Example implementation using fetch() API:
+      fetch('http://localhost:5063/api/CompanyContoller')
+        .then(response => response.json())
+        .then(data => {
+          this.buildings = data
+        })
+        .catch(error => {
+          console.error('Error fetching buildings:', error)
+        })
+    },
+    editBuilding(index) {
+      // Implement edit building functionality
+      console.log(`Editing building ${index}`)
+    },
+    deleteBuilding(index) {
+      // Implement delete building functionality
+      console.log(`Deleting building ${index}`)
     }
   }
-};
+}
 </script>
 
-<style scoped>
-.container {
-  max-width: 600px;
-  margin: 0 auto;
-  text-align: center;
+<style>
+.buildings {
+  padding: 20px;
 }
-
-.btn {
-  margin-top: 20px;
-  margin-bottom: 20px;
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
-
-.table {
-  margin: 0 auto;
+li {
+  margin-bottom: 10px;
+}
+.building {
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  padding: 10px;
+}
+.building-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.building-name {
+  font-size: 20px;
+  font-weight: bold;
+}
+.building-buttons {
+  display: flex;
+}
+.edit-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+.delete-button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
 }
 </style>
