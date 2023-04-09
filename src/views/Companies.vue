@@ -23,7 +23,7 @@
           <div class="building-buttons">
 
             <div v-if="isAdmin">
-              <button class="edit-button" @click="editBuilding(index)">Edit</button>
+              <button class="edit-button" @click="editBuilding(building.buildingId, building.name)">Edit</button>
               <button class="delete-button" @click="deleteBuilding(building.buildingId)">Delete</button>
             </div>
 
@@ -83,28 +83,35 @@ export default {
           console.error('Error fetching buildings:', error)
         })
     },
-    editBuilding(index) {
-      // Implement edit building functionality
-      console.log(`Editing building ${index}`)
+    editBuilding(buildingId, name) {
+      localStorage.setItem('bID', buildingId)
+      localStorage.setItem('bName', name)
+      this.$router.push('/editbuilding')
+
+
     },
     deleteBuilding(buildingId) {
-  fetch(`http://localhost:5063/api/CRUD/DeleteBuilding${buildingId}`, {
-    method: 'DELETE',
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log(`Building ${buildingId} was deleted`);
-      this.fetchBuildings();
-    })
-    .catch(error => {
-      console.error('Error deleting building:', error);
-    });
+    const confirmed = window.confirm("Are you sure you want to delete this building?");
+    if (confirmed) {
+      fetch(`http://localhost:5063/api/CRUD/DeleteBuilding${buildingId}`, {
+        method: 'DELETE',
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log(`Building ${buildingId} was deleted`);
+        this.fetchBuildings();
+      })
+      .catch(error => {
+        console.error('Error deleting building:', error);
+      });
+    }
   },
+
 
     logout() {
       localStorage.clear();
