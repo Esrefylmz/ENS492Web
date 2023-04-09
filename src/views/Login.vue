@@ -30,19 +30,24 @@ export default {
           password: this.password
         })
         if (response.status === 200) {
-          console.log(response.data)
-          if (response.data.userType === "admin") {
-            const userMail = response.data.usermail
-            const uID = response.data.userId
-            localStorage.setItem('mail', userMail)
-            localStorage.setItem('userID', uID)
-            
-            console.log('Login Succesful')
-            this.$router.push('/companies')
-          }
-          else {
-            alert('You do not have permission to access this page.')
-          }
+          //console.log(response.data)
+          const userMail = response.data.usermail
+          const uID = response.data.userId
+          const userType = response.data.userType
+          const userDomain = response.data.usermail.split('@')[1];
+          const companyID = response.data.companyId;
+          localStorage.setItem('mail', userMail)
+          localStorage.setItem('userID', uID)
+          localStorage.setItem('userType', userType)
+          localStorage.setItem('userDomain', userDomain)
+          localStorage.setItem('companyID', companyID)
+          
+          console.log(localStorage.getItem("userDomain"))
+          console.log(localStorage.getItem("companyID"))
+          
+          console.log('Login Succesful')
+          this.$router.push('/companies')
+
         } else {
           alert('Incorrect Mail or password')
         }

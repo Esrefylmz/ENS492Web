@@ -1,6 +1,18 @@
 <template>
   <div class="buildings">
     <h1>Buildings</h1>
+
+    <div v-if="isAdmin">
+      <div class="add-building">
+        <router-link to="/addbuilding">
+
+          <button class="add-building-button">Add A New Building</button>
+        </router-link> 
+        
+        
+      </div>
+    </div>
+
     <div v-if="localStorageMail">
       <button  class="logout-button" @click="logout">Logout</button>
     </div>
@@ -9,12 +21,18 @@
         <div class="building-info">
           <div class="building-name">{{ building.name }}</div>
           <div class="building-buttons">
-            <button class="edit-button" @click="editBuilding(index)">Edit</button>
-            <button class="delete-button" @click="deleteBuilding(index)">Delete</button>
+
+            <div v-if="isAdmin">
+              <button class="edit-button" @click="editBuilding(index)">Edit</button>
+              <button class="delete-button" @click="deleteBuilding(index)">Delete</button>
+            </div>
+
+
           </div>
         </div>
       </li>
     </ul>
+
   </div>
 </template>
 
@@ -40,12 +58,23 @@ export default {
     localStorageMail() {
       return localStorage.getItem("mail");
     },
+    isAdmin(){
+      if (localStorage.getItem("userType") == "admin"){
+        return true;
+      }
+      else{
+        return false;
+      }
+    },
   },
   methods: {
     fetchBuildings() {
+      console.log(localStorage.getItem("userType"))
       // Replace the API call with your own implementation to fetch buildings
       // Example implementation using fetch() API:
-      fetch('http://localhost:5063/api/CompanyContoller')
+      const companyId = localStorage.getItem('companyID');
+      fetch(`http://localhost:5063/api/CRUD/GetBuildingByCompanyId?Id=${companyId}`)
+      //fetch('http://localhost:5063/api/CompanyContoller')
         .then(response => response.json())
         .then(data => {
           this.buildings = data
@@ -63,7 +92,7 @@ export default {
       console.log(`Deleting building ${index}`)
     },
     logout() {
-      localStorage.removeItem("mail");
+      localStorage.clear();
       this.$router.push("/");
     },
   }
@@ -140,6 +169,31 @@ li {
 .logout-button:hover {
   transform: scale(1.1);
 }
+
+.add-building {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.add-building-button {
+  background-color: green;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  width: 400px;
+  height: 60px;
+  font-size: 24px;
+  cursor: pointer;
+  margin-right: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+.add-building-button:hover {
+  transform: scale(1.1);
+}
+
 
 
 </style>
