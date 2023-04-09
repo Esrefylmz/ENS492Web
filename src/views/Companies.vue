@@ -24,7 +24,7 @@
 
             <div v-if="isAdmin">
               <button class="edit-button" @click="editBuilding(index)">Edit</button>
-              <button class="delete-button" @click="deleteBuilding(index)">Delete</button>
+              <button class="delete-button" @click="deleteBuilding(building.buildingId)">Delete</button>
             </div>
 
 
@@ -87,10 +87,25 @@ export default {
       // Implement edit building functionality
       console.log(`Editing building ${index}`)
     },
-    deleteBuilding(index) {
-      // Implement delete building functionality
-      console.log(`Deleting building ${index}`)
-    },
+    deleteBuilding(buildingId) {
+  fetch(`http://localhost:5063/api/CRUD/DeleteBuilding${buildingId}`, {
+    method: 'DELETE',
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log(`Building ${buildingId} was deleted`);
+      this.fetchBuildings();
+    })
+    .catch(error => {
+      console.error('Error deleting building:', error);
+    });
+  },
+
     logout() {
       localStorage.clear();
       this.$router.push("/");
