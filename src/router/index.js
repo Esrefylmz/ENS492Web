@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import CompanyUsers from '../views/Companies.vue'
+import Buildings from '../views/Companies.vue'
+import Building from '../views/Rooms.vue'
 import Login from '../views/Login.vue'
 
 Vue.use(VueRouter)
@@ -45,13 +47,22 @@ const routes = [
     name: 'editbuilding',
     component: () => import(/* webpackChunkName: "about" */ '../views/EditBuilding.vue')
   },
-  
   {
-    path: '/companies',
-    name: 'companies',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Companies.vue')
-
+    path: '/buildings',
+    name: 'buildings',
+    component: Buildings
+  },
+  {
+    path: '/addadmin',
+    name: 'addadmin',
+    component: () => import(/* webpackChunkName: "about" */ '../views/AddAdmin.vue')
+  },
+  {
+    path: '/buildings/:buildingName',
+    name: 'building',
+    component: Building
   }
+
 ]
 
 const router = new VueRouter({

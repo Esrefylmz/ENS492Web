@@ -46,7 +46,9 @@
     },
     methods: {
       fetchDevices() {
-        fetch('http://localhost:5063/api/CompanySensors')
+        const companyId = localStorage.getItem('companyID');  
+        
+        fetch(`http://localhost:5063/api/CompanySensors/GetCompanySensorById?Id=${companyId}`)
           .then(response => response.json())
           .then(data => {
             this.devices = data

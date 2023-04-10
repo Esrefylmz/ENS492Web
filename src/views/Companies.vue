@@ -17,9 +17,13 @@
       <button  class="logout-button" @click="logout">Logout</button>
     </div>
     <ul>
-      <li v-for="(building, index) in buildings" :key="index" class="building">
+      <li v-for="(building) in buildings" :key="building.name" class="building">
         <div class="building-info">
-          <div class="building-name">{{ building.name }}</div>
+
+          <router-link :to="'/buildings/' + building.name">{{ building.name }}</router-link>
+
+
+          
           <div class="building-buttons">
 
             <div v-if="isAdmin">
@@ -38,9 +42,14 @@
 
 <script>
 export default {
+  name: 'Buildings',
   data() {
     return {
-      buildings: []
+      buildings: [
+        { name: 'Building 1' },
+        { name: 'Building 2' },
+        { name: 'Building 3' }
+      ]
     }
   },
   created() {
@@ -70,6 +79,7 @@ export default {
   methods: {
     fetchBuildings() {
       console.log(localStorage.getItem("userType"))
+      console.log(localStorage.getItem("companyID"))
       // Replace the API call with your own implementation to fetch buildings
       // Example implementation using fetch() API:
       const companyId = localStorage.getItem('companyID');

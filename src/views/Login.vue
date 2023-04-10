@@ -46,7 +46,7 @@ export default {
           console.log(localStorage.getItem("companyID"))
           
           console.log('Login Succesful')
-          this.$router.push('/companies')
+          this.$router.push('/buildings')
 
         } else {
           alert('Incorrect Mail or password')

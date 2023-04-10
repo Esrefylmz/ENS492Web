@@ -50,7 +50,8 @@
         })
         .then((data) => {
             // Handle success response here
-            this.$router.push('/companies')
+            localStorage.removeItem("bID");
+            this.$router.push('/buildings')
           })
       },
     },

@@ -1,10 +1,10 @@
 <template>
     <div class="add-building-form">
-      <h1>Add A New Building</h1>
+      <h1>Add Admin</h1>
   
       <form @submit.prevent="submit">
         <div class="form-group">
-          <label for="buildingName">Building Name:</label>
+          <label for="buildingName">Admin Usermail:</label>
           <input type="text" id="buildingName" v-model="buildingName" required>
         </div>
   
