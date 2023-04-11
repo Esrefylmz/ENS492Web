@@ -19,9 +19,18 @@
     <ul>
       <li v-for="(building) in buildings" :key="building.name" class="building">
         <div class="building-info">
+          
+          <router-link :to="'/buildings/' + building.name">
+            <span @click="goRoom(building)">{{ building.name }}</span>
+          </router-link>
 
-          <router-link :to="'/buildings/' + building.name">{{ building.name }}</router-link>
 
+          <!--<router-link :to="'/buildings/' + building.name"  >{{ building.name }}</router-link>-->
+          <!--
+          <router-link :to="{ name: 'building', params: { buildingName: building.name, buildingId: building.buildingId } }">
+            {{ building.name }}
+          </router-link>
+          -->
 
           
           <div class="building-buttons">
@@ -92,6 +101,9 @@ export default {
         .catch(error => {
           console.error('Error fetching buildings:', error)
         })
+    },
+    goRoom(building) {
+      localStorage.setItem('bID', building.buildingId);
     },
     editBuilding(buildingId, name) {
       localStorage.setItem('bID', buildingId)

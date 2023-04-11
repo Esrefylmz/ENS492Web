@@ -6,7 +6,9 @@
       <router-link to="/buildings">Buildings</router-link> |
       <router-link to="/devices">Devices</router-link> |
       <router-link to="/admins">Admins</router-link> | 
-      <router-link to="/viewers">Viewers</router-link> 
+      <router-link to="/viewers">Viewers</router-link> |
+      <router-link to="/viewers">SSID/BROKER</router-link> |
+      <router-link to="/viewers">Requests</router-link> 
     </nav>
     <router-view/>
   </div>
