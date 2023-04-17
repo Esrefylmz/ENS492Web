@@ -1,18 +1,28 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Login</router-link> |
-      <router-link to="/Register">Register</router-link> |
-      <router-link to="/buildings">Buildings</router-link> |
-      <router-link to="/devices">Devices</router-link> |
-      <router-link to="/admins">Admins</router-link> | 
-      <router-link to="/viewers">Viewers</router-link> |
-      <router-link to="/viewers">SSID/BROKER</router-link> |
-      <router-link to="/pending">Requests</router-link> 
-    </nav>
+    <header v-if="!isLoginPage">
+      <router-link to="/buildings" class="nav-button">Buildings</router-link>
+      <router-link to="/devices" class="nav-button">Devices</router-link>
+      <router-link to="/admins" class="nav-button">Admins</router-link> 
+      <router-link to="/viewers" class="nav-button">Viewers</router-link>
+      <router-link to="/broker" class="nav-button">SSID/BROKER</router-link>
+      <router-link to="/pending" class="nav-button">Requests</router-link> 
+
+    </header>
     <router-view/>
   </div>
 </template>
+
+<script>
+export default {
+  computed: {
+    isLoginPage() {
+      return this.$route.path === '/';
+    },
+   
+  },
+};
+</script>
 
 <style>
 #app {
@@ -23,16 +33,35 @@
   color: #2c3e50;
 }
 
-nav {
-  padding: 30px;
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f2f2f2;
+  padding: 20px;
 }
 
-nav a {
+.nav-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+  height: auto;
+  padding: 1%;
+  border-radius: 5px;
+  background-color: #42b983;
+  color: white;
+  font-size: 16px;
   font-weight: bold;
-  color: #2c3e50;
+  text-decoration: none;
+  margin: 0 10px;
 }
 
-nav a.router-link-exact-active {
-  color: #42b983;
+.nav-button:hover {
+  background-color: #5cd6a0;
+}
+
+.nav-button.router-link-exact-active {
+  background-color: #2c3e50;
 }
 </style>

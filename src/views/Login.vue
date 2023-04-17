@@ -92,13 +92,16 @@ input[type="password"] {
 
 
 button {
-  padding: 5px;
+  padding: 11%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: #4CAF50;
   color: white;
   border: none;
   border-radius: 30px;
-  width: 100px;
-  height: 50px;
+  width: auto;
+  height: auto;
   cursor: pointer;
 }
 </style>

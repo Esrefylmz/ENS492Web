@@ -5,6 +5,7 @@ import Buildings from '../views/Companies.vue'
 import Building from '../views/Rooms.vue'
 import Login from '../views/Login.vue'
 import RoomEdit from '../views/EditRoom.vue'
+import Broker from '../views/Broker.vue'
 
 Vue.use(VueRouter)
 
@@ -72,6 +73,11 @@ const routes = [
     path: '/buildings/:buildingName',
     name: 'building',
     component: Building
+  },
+  {
+    path: '/broker',
+    name: 'broker',
+    component: Broker
   },
   {
     path: '/buildings/:buildingName/:roomName',
