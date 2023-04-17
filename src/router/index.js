@@ -4,6 +4,7 @@ import CompanyUsers from '../views/Companies.vue'
 import Buildings from '../views/Companies.vue'
 import Building from '../views/Rooms.vue'
 import Login from '../views/Login.vue'
+import RoomEdit from '../views/EditRoom.vue'
 
 Vue.use(VueRouter)
 
@@ -63,10 +64,20 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/AddAdmin.vue')
   },
   {
+    path: '/pending',
+    name: 'pending',
+    component: () => import(/* webpackChunkName: "about" */ '../views/PendingStatus.vue')
+  },
+  {
     path: '/buildings/:buildingName',
     name: 'building',
     component: Building
-  }
+  },
+  {
+    path: '/buildings/:buildingName/:roomName',
+    name: 'room',
+    component: RoomEdit
+  },
 
 ]
 

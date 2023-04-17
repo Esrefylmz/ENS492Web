@@ -2,16 +2,6 @@
   <div class="devices">
     <h1>Viewers</h1>
 
-    <div v-if="isAdmin">
-      <div class="add-building">
-        <router-link to="/addadmin">
-
-          <button class="add-building-button">Add Viewer</button>
-        </router-link> 
-        
-        
-      </div>
-    </div>
     <div v-if="localStorageMail">
       <button  class="logout-button" @click="logout">Logout</button>
     </div>
@@ -21,8 +11,8 @@
           <div class="device-name">{{ viewer.usermail }}</div>
           <div class="device-buttons">
             <div v-if="isAdmin">
-              <button class="edit-button" @click="editViewer()">Edit</button>
-              <button class="delete-button" @click="deleteViewer()">Delete</button>
+              <button class="edit-button" @click="editViewer(viewer.userId)">Make Admin</button>
+              <button class="delete-button" @click="deleteViewer(viewer.userId)">Delete</button>
             </div>
           </div>
         </div>
@@ -80,13 +70,48 @@ export default {
           console.error('Error fetching admins:', error)
         })
     },
-    editViewer() {
-      // Implement edit device functionality
-      
+    editViewer(uID) {
+      const confirmed = window.confirm("Are you sure you want to promote this user?");
+      if (confirmed) {
+        fetch(`http://localhost:5063/api/CompanyUsers/PromoteViewerToAdmin?userId=${uID}`, {
+          method: 'PUT',
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          console.log(`User ${uID} was promoted`);
+          // Update the viewers list after a successful response
+          this.fetchViewer();
+        })
+        .catch(error => {
+          console.error('Error promoting user:', error);
+        });
+      }
     },
-    deleteViewer() {
-      // Implement delete device functionality
-      
+    deleteViewer(uID) {
+      const confirmed = window.confirm("Are you sure you want to delete this user?");
+      if (confirmed) {
+        fetch(`http://localhost:5063/api/CompanyUsers/DisapprovePendingViewer/${uID}`, {
+          method: 'DELETE',
+        })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then(data => {
+            console.log(`User ${uID} was deleted`);
+            this.fetchViewer();
+          })
+          .catch(error => {
+            console.error('Error deleting user:', error);
+          });
+      }
     },
     logout() {
       localStorage.clear();
@@ -130,17 +155,19 @@ li {
   background-color: #4CAF50;
   color: white;
   border: none;
+  width: auto;
   border-radius: 5px;
-  padding: 5px 10px;
+  padding: 5px auto;
   margin-right: 10px;
   cursor: pointer;
 }
 .delete-button {
   background-color: #f44336;
   color: white;
+  width: auto;
   border: none;
   border-radius: 5px;
-  padding: 5px 10px;
+  padding: 5px auto;
   cursor: pointer;
 }
 </style>

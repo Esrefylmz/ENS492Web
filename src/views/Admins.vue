@@ -4,16 +4,11 @@
 
     <div v-if="isAdmin">
       <div class="add-building">
-        <router-link to="/addadmin">
-
-          <button class="add-building-button">Add Admin</button>
-        </router-link> 
-        
-        
+        <button class="add-building-button" @click="showPopup = true">Add Admin</button>
       </div>
     </div>
     <div v-if="localStorageMail">
-      <button  class="logout-button" @click="logout">Logout</button>
+      <button class="logout-button" @click="logout">Logout</button>
     </div>
     <ul>
       <li v-for="(admin) in admins" :key="admin.usermail" class="device">
@@ -21,13 +16,32 @@
           <div class="device-name">{{ admin.usermail }}</div>
           <div class="device-buttons">
             <div v-if="isAdmin">
-              <button class="edit-button" @click="editAdmin()">Edit</button>
-              <button class="delete-button" @click="deleteAdmin()">Delete</button>
+              <button class="delete-button" @click="deleteAdmin(admin.userId)">Delete</button>
             </div>
           </div>
         </div>
       </li>
     </ul>
+
+    <!-- Popup dialog -->
+    <div class="popup" v-if="showPopup">
+      <div class="popup-content">
+        <h2>Add Admin</h2>
+        <div class="popup-form">
+          <label for="usermail">Usermail:</label>
+          <input type="text" id="usermail" name="usermail">
+          <br>
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password">
+          <br>
+          <label for="username">Username:</label>
+          <input type="text" id="username" name="username">
+          <br>
+          <button class="confirm-button" @click="addAdmin()">Confirm</button>
+          <button class="cancel-button" @click="showPopup = false">Cancel</button>
+        </div>
+      </div>
+    </div>
 
   </div>
 </template>
@@ -41,7 +55,8 @@ export default {
         { name: 'Admin1' },
         { name: 'Admin2' },
         { name: 'Admin3' }
-      ]
+      ],
+      showPopup: false
     }
   },
   created() {
@@ -80,13 +95,31 @@ export default {
           console.error('Error fetching admins:', error)
         })
     },
-    editAdmin() {
-      // Implement edit device functionality
-      
+    deleteAdmin(uID) {
+      const confirmed = window.confirm("Are you sure you want to delete this user?");
+      if (confirmed) {
+        fetch(`http://localhost:5063/api/CompanyUsers/DisapprovePendingViewer/${uID}`, {
+          method: 'DELETE',
+        })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then(data => {
+            console.log(`User ${uID} was deleted`);
+            this.fetchAdmins();
+          })
+          .catch(error => {
+            console.error('Error deleting user:', error);
+          });
+      }
     },
-    deleteAdmin() {
-      // Implement delete device functionality
-      
+    addAdmin() {
+      // Code to add admin here
+      // ...
+      this.showPopup = false;
     },
     logout() {
       localStorage.clear();
@@ -107,7 +140,8 @@ ul {
   padding: 0;
 }
 li {
-  margin-bottom: 10px;
+  margin-bottom: 10px
+
 }
 .device {
   border: 2px solid #ccc;
@@ -143,4 +177,64 @@ li {
   padding: 5px 10px;
   cursor: pointer;
 }
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+  max-width: 90%;
+  display: flex;
+  flex-direction: column;
+}
+
+.popup-form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.popup-form label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.popup-form input {
+  padding: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.confirm-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.cancel-button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
 </style>

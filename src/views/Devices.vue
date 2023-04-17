@@ -13,8 +13,13 @@
             </div>
             <div class="location-info">{{ device.locationInfo }}</div>
             <div class="device-buttons">
-              <button class="edit-button" @click="editDevice(index)">Edit</button>
-              <button class="delete-button" @click="deleteDevice(index)">Delete</button>
+
+              <div v-if="isAdmin">
+                <button class="edit-button" @click="editDevice(index)">Edit</button>
+                <button class="delete-button" @click="deleteDevice(index)">Delete</button>
+              </div>
+
+
             </div>
           </div>
         </li>
@@ -43,6 +48,14 @@
       localStorageMail() {
         return localStorage.getItem("mail");
       },
+      isAdmin(){
+        if (localStorage.getItem("userType") == "admin"){
+          return true;
+        }
+        else{
+          return false;
+        }
+      }
     },
     methods: {
       fetchDevices() {

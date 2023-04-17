@@ -5,7 +5,7 @@
       <form @submit.prevent="submit">
         <div class="form-group">
           <label for="buildingName">Room Name:</label>
-          <input type="text" id="buildingName" v-model="roomName" required>
+          <input type="text" id="roomName" v-model="roomName" required>
         </div>
   
         <div class="form-group">
@@ -49,6 +49,7 @@
           .then((data) => {
             // Handle success response here
             this.$router.go(-1);
+            
           })
           .catch((error) => {
             console.error('Error submitting form data:', error);

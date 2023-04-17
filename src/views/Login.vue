@@ -80,7 +80,8 @@ label {
   margin-bottom: 10px;
 }
 
-input {
+input[type="text"],
+input[type="password"] {
   margin-bottom: 20px;
   padding: 10px;
   border: 1px solid #ccc;
@@ -89,12 +90,15 @@ input {
   box-sizing: border-box;
 }
 
+
 button {
-  padding: 10px;
+  padding: 5px;
   background-color: #4CAF50;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 30px;
+  width: 100px;
+  height: 50px;
   cursor: pointer;
 }
 </style>

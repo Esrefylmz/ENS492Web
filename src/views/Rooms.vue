@@ -6,7 +6,7 @@
       <div class="add-building">
         <router-link to="/addroom">
 
-          <button class="add-building-button">Add A New Room</button>
+          <button class="add-building-button" @click=setBuildingID(building.buildingId) >Add A New Room</button>
         </router-link> 
         
         
@@ -19,14 +19,18 @@
     <ul>
       <li v-for="(room) in rooms" :key="room.name" class="building">
         <div class="building-info">
-          <div class="device-name">{{ room.name }}</div>
+          <div class="building-name">{{ room.name }}</div>
           
           
           <div class="building-buttons">
 
             <div v-if="isAdmin">
-              <button class="edit-button" @click="editRoom()">Edit</button>
-              <button class="delete-button" @click="deleteRoom()">Delete</button>
+              <!--<button class="edit-button" @click="editRoom(room.roomId)">Edit</button>-->
+
+              <button class="edit-button" @click="editRoom(room.roomId, buildingName, room.name)">Edit</button>
+
+
+              <button class="delete-button" @click="deleteRoom(room.roomId)">Delete</button>
             </div>
 
 
@@ -53,8 +57,7 @@ export default {
     };
   },
   created() {
-    //this.buildingName = this.$route.params.buildingName;
-    //this.buildingID = this.$route.params.buildingId;
+    
     this.fetchRooms()
   },
   computed: {
@@ -74,7 +77,7 @@ export default {
   methods: {
     fetchRooms() {
       const buildingID = localStorage.getItem("bID");
-      console.log("bID local storage eşitttir  ",buildingID)
+      //console.log("bID local storage eşitttir  ",buildingID)
       //const companyId = localStorage.getItem('companyID');
       fetch(`http://localhost:5063/api/Rooms/GetRoomsByBuildingId?buildingId=${buildingID}`)
         .then(response => response.json())
@@ -85,17 +88,16 @@ export default {
           console.error('Error fetching rooms:', error)
         })
     },
-    editRoom() {
-      //localStorage.setItem('bID', buildingId)
-      //localStorage.setItem('bName', name)
-      this.$router.push('/editbuilding')
-
-
+    setBuildingID(building) {
+      localStorage.setItem('bID', building);
     },
-    deleteRoom() {
+    editRoom(roomId, buildingName, roomName) {
+      this.$router.push({ name: 'room', params: { buildingName: buildingName, roomName: roomName, roomId: roomId }});
+    },
+    deleteRoom(roomID) {
     const confirmed = window.confirm("Are you sure you want to delete this building?");
     if (confirmed) {
-      fetch(`http://localhost:5063/api/CRUD/DeleteBuilding${buildingID}`, {
+      fetch(`http://localhost:5063/api/Rooms/DeleteRoom${roomID}`, {
         method: 'DELETE',
       })
       .then(response => {
@@ -109,7 +111,7 @@ export default {
         this.fetchRooms();
       })
       .catch(error => {
-        console.error('Error deleting building:', error);
+        console.error('Error deleting room:', error);
       });
     }
   },
@@ -177,7 +179,7 @@ li {
 }
 .logout-button {
   position: absolute;
-  top: 120px;
+  top: 90px;
   right: 50px;
   padding: 5px 10px;
   cursor: pointer;
