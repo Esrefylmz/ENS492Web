@@ -25,9 +25,9 @@
           <div class="building-buttons">
 
             <div v-if="isAdmin">
-              <!--<button class="edit-button" @click="editRoom(room.roomId)">Edit</button>-->
-
-              <button class="edit-button" @click="editRoom(room.roomId, buildingName, room.name)">Edit</button>
+              <!--<button class="edit-button" @click="editRoom(room.roomId)">Edit</button>       room.roomId, buildingName, room.name-->
+              
+              <button class="edit-button" @click="editRoom(room.roomId, room.name)">Edit</button>
 
 
               <button class="delete-button" @click="deleteRoom(room.roomId)">Delete</button>
@@ -39,16 +39,20 @@
       </li>
     </ul>
 
-    <!-- Display building information based on the buildingName -->
   </div>
 </template>
 
 <script>
+import EditRoomPopup from './EditRoomPopup.vue';
+
 export default {
   name: 'Rooms',
   data() {
     return {
       buildingName: this.$route.params.buildingName,
+      selectedRoomId: null,
+      selectedRoomName: '',
+      showEditPopup: false,
       rooms: [
         { name: 'Room 1' },
         { name: 'Room 2' },
@@ -79,7 +83,7 @@ export default {
       const buildingID = localStorage.getItem("bID");
       //console.log("bID local storage eşitttir  ",buildingID)
       //const companyId = localStorage.getItem('companyID');
-      fetch(`http://localhost:5063/api/Rooms/GetRoomsByBuildingId?buildingId=${buildingID}`)
+      fetch(`http://uskumru.sabanciuniv.edu:5063/api/Rooms/GetRoomsByBuildingId?buildingId=${buildingID}`)
         .then(response => response.json())
         .then(data => {
           this.rooms = data
@@ -91,13 +95,14 @@ export default {
     setBuildingID(building) {
       localStorage.setItem('bID', building);
     },
-    editRoom(roomId, buildingName, roomName) {
-      this.$router.push({ name: 'room', params: { buildingName: buildingName, roomName: roomName, roomId: roomId }});
+    editRoom(roomId, roomName) {
+      //this.$router.push({ name: 'room', params: { buildingName: buildingName, roomName: roomName, roomId: roomId }});
+
     },
     deleteRoom(roomID) {
     const confirmed = window.confirm("Are you sure you want to delete this building?");
     if (confirmed) {
-      fetch(`http://localhost:5063/api/Rooms/DeleteRoom${roomID}`, {
+      fetch(`http://uskumru.sabanciuniv.edu:5063/api/Rooms/DeleteRoom${roomID}`, {
         method: 'DELETE',
       })
       .then(response => {

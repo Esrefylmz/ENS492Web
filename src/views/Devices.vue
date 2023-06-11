@@ -15,7 +15,7 @@
             <div class="device-buttons">
 
               <div v-if="isAdmin">
-                <button class="edit-button" @click="editDevice(index)">Edit</button>
+                
                 <button class="delete-button" @click="deleteDevice(index)">Delete</button>
               </div>
 
@@ -61,7 +61,7 @@
       fetchDevices() {
         const companyId = localStorage.getItem('companyID');  
         
-        fetch(`http://localhost:5063/api/CompanySensors/GetCompanySensorByCompanyId?Id=${companyId}`)
+        fetch(`http://uskumru.sabanciuniv.edu:5063/api/CompanySensors/GetCompanySensorByCompanyId?Id=${companyId}`)
           .then(response => response.json())
           .then(data => {
             this.devices = data
@@ -69,9 +69,6 @@
           .catch(error => {
             console.error('Error fetching devices:', error)
           })
-      },
-      editDevice(index) {
-        console.log(`Editing devices ${index}`)
       },
       deleteDevice(index) {
         console.log(`Deleting devices ${index}`)

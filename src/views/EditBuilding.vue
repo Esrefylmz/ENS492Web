@@ -37,7 +37,7 @@
       submit() {
         const companyId = localStorage.getItem('companyID');
         const buildID = localStorage.getItem('bID');
-        fetch('http://localhost:5063/api/CRUD/PutBuilding', {
+        fetch('http://uskumru.sabanciuniv.edu:5063/api/CRUD/PutBuilding', {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',

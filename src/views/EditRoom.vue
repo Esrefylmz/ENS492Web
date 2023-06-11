@@ -39,7 +39,7 @@
         console.log("companyID", localStorage.getItem('companyID'));
         const companyId = localStorage.getItem('companyID');
         //const buildID = localStorage.getItem('bID');
-        fetch('http://localhost:5063/api/Rooms/PutRoom', {
+        fetch('http://uskumru.sabanciuniv.edu:5063/api/Rooms/PutRoom', {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',

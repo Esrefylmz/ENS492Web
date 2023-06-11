@@ -61,7 +61,7 @@ export default {
     fetchViewer() {
       console.log(localStorage.getItem("companyID"))
       const companyId = localStorage.getItem('companyID');
-      fetch(`http://localhost:5063/api/CompanyUsers/GetCompanyViewersByCompanyId?id=${companyId}`)
+      fetch(`http://uskumru.sabanciuniv.edu:5063/api/CompanyUsers/GetCompanyViewersByCompanyId?id=${companyId}`)
         .then(response => response.json())
         .then(data => {
           this.viewers = data
@@ -73,7 +73,7 @@ export default {
     editViewer(uID) {
       const confirmed = window.confirm("Are you sure you want to promote this user?");
       if (confirmed) {
-        fetch(`http://localhost:5063/api/CompanyUsers/PromoteViewerToAdmin?userId=${uID}`, {
+        fetch(`http://uskumru.sabanciuniv.edu:5063/api/CompanyUsers/PromoteViewerToAdmin?userId=${uID}`, {
           method: 'PUT',
         })
         .then(response => {
@@ -95,7 +95,7 @@ export default {
     deleteViewer(uID) {
       const confirmed = window.confirm("Are you sure you want to delete this user?");
       if (confirmed) {
-        fetch(`http://localhost:5063/api/CompanyUsers/DisapprovePendingViewer/${uID}`, {
+        fetch(`http://uskumru.sabanciuniv.edu:5063/api/CompanyUsers/DisapprovePendingViewer/${uID}`, {
           method: 'DELETE',
         })
           .then(response => {

@@ -2,11 +2,6 @@
   <div class="devices">
     <h1>Admins</h1>
 
-    <div v-if="isAdmin">
-      <div class="add-building">
-        <button class="add-building-button" @click="showPopup = true">Add Admin</button>
-      </div>
-    </div>
     <div v-if="localStorageMail">
       <button class="logout-button" @click="logout">Logout</button>
     </div>
@@ -23,25 +18,6 @@
       </li>
     </ul>
 
-    <!-- Popup dialog -->
-    <div class="popup" v-if="showPopup">
-      <div class="popup-content">
-        <h2>Add Admin</h2>
-        <div class="popup-form">
-          <label for="usermail">Usermail:</label>
-          <input type="text" id="usermail" name="usermail">
-          <br>
-          <label for="password">Password:</label>
-          <input type="password" id="password" name="password">
-          <br>
-          <label for="username">Username:</label>
-          <input type="text" id="username" name="username">
-          <br>
-          <button class="confirm-button" @click="addAdmin()">Confirm</button>
-          <button class="cancel-button" @click="showPopup = false">Cancel</button>
-        </div>
-      </div>
-    </div>
 
   </div>
 </template>
@@ -86,7 +62,7 @@ export default {
     fetchAdmins() {
       console.log(localStorage.getItem("companyID"))
       const companyId = localStorage.getItem('companyID');
-      fetch(`http://localhost:5063/api/CompanyUsers/GetCompanyAdminsByCompanyId?id=${companyId}`)
+      fetch(`http://uskumru.sabanciuniv.edu:5063/api/CompanyUsers/GetCompanyAdminsByCompanyId?id=${companyId}`)
         .then(response => response.json())
         .then(data => {
           this.admins = data
@@ -98,7 +74,7 @@ export default {
     deleteAdmin(uID) {
       const confirmed = window.confirm("Are you sure you want to delete this user?");
       if (confirmed) {
-        fetch(`http://localhost:5063/api/CompanyUsers/DisapprovePendingViewer/${uID}`, {
+        fetch(`http://uskumru.sabanciuniv.edu:5063/api/CompanyUsers/DisapprovePendingViewer/${uID}`, {
           method: 'DELETE',
         })
           .then(response => {

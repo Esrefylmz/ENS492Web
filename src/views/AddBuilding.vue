@@ -29,7 +29,7 @@
           console.error('Company ID not found in local storage');
           return;
         }
-        fetch('http://localhost:5063/api/CRUD/PostBuilding', {
+        fetch('http://uskumru.sabanciuniv.edu:5063/api/CRUD/PostBuilding', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

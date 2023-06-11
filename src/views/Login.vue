@@ -25,7 +25,7 @@ export default {
     ...mapActions('auth', ['login', 'logout']),
     async login() {
       try {
-        const response = await axios.post('http://localhost:5063/api/CompanyUserAuth/LoginCompanyUser', {
+        const response = await axios.post('http://uskumru.sabanciuniv.edu:5063/api/CompanyUserAuth/LoginCompanyUser', { 
           mail: this.mail,
           password: this.password
         })

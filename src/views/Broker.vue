@@ -1,98 +1,118 @@
 <template>
-    <div class="configure">
-      <h1>Configure Company</h1>
-  
-      <form class="configure-form" @submit.prevent="submitForm">
-        <div class="form-group">
-          <label for="companyName">Company Name:</label>
-          <input type="text" id="companyName" v-model="companyName" required>
-        </div>
+  <div class="configure">
+    <h1>Configure Company</h1>
 
-        <div class="form-group">
-          <label for="ssid">SSID:</label>
-          <input type="text" id="ssid" v-model="ssid" required>
-        </div>
-  
-        <div class="form-group">
-          <label for="broker">Broker:</label>
-          <input type="text" id="broker" v-model="broker" required>
-        </div>
-
-        <div class="form-group">
-          <label for="password">Password:</label>
-          <input type="text" id="password" v-model="password" required>
-        </div>
-  
-        <button type="submit" class="configure-button">Configure</button>
-      </form>
+    <div v-if="company">
+      <h2>Current Company Information</h2>
+      <p>Name: {{ company.name }}</p>
+      <p>SSID: {{ company.ssid }}</p>
+      <p>Broker: {{ company.broker }}</p>
+      <p>Password: *** </p>
     </div>
-  </template>
-  
-  <script>
+
+    <form class="configure-form" @submit.prevent="submitForm">
+      <div class="form-group">
+        <label for="companyName">Company Name:</label>
+        <input type="text" id="companyName" v-model="companyName" required>
+      </div>
+
+      <div class="form-group">
+        <label for="ssid">SSID:</label>
+        <input type="text" id="ssid" v-model="ssid" required>
+      </div>
+
+      <div class="form-group">
+        <label for="broker">Broker:</label>
+        <input type="text" id="broker" v-model="broker" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="text" id="password" v-model="password" required>
+      </div>
+
+      <button type="submit" class="configure-button">Configure</button>
+    </form>
+
+
+  </div>
+</template>
+
+<script>
 import axios from 'axios';
-console.log(localStorage.getItem("companyID"));
+
 export default {
-    name: 'Configure',
-    data() {
+  name: 'Configure',
+  data() {
     return {
-        companyName: '',
-        ssid: '',
-        broker: '',
-        password: '',
+      companyName: '',
+      ssid: '',
+      broker: '',
+      password: '',
+      company: null,
     }
+  },
+  methods: {
+    async submitForm() {
+      const url = 'http://uskumru.sabanciuniv.edu:5063/api/CompanyContoller/UpdateCompany';
+      const body = {
+        companyId: localStorage.getItem("companyID"),
+        name: this.companyName,
+        domain: localStorage.getItem("userDomain"),
+        ssid: this.ssid,
+        broker: this.broker,
+        password: this.password,
+      };
+      
+      try {
+        const response = await fetch(url, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(body),
+        });
+        //console.log(response);
+        this.companyName = '';
+        this.ssid = '';
+        this.broker = '';
+        this.password = '';
+        alert('Configuration successful');
+        location.reload();
+      } catch (error) {
+        console.error(error);
+      }
     },
-    methods: {
-        async submitForm() {
-            const url = 'http://localhost:5063/api/CompanyContoller/UpdateCompany';
-            const body = {
-                companyId: localStorage.getItem("companyID"),
-                name: this.companyName,
-                domain: localStorage.getItem("userDomain"),
-                ssid: this.ssid,
-                broker: this.broker,
-                password: this.password,
-            };
-            
-            try {
-                const response = await fetch(url, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(body),
-                });
-                //console.log(response);
-                this.companyName = '';
-                this.ssid = '';
-                this.broker = '';
-                this.password = '';
-                alert('Configuration successful');
-
-            } catch (error) {
-                console.error(error);
-            }
-        },
-
-    },
+  },
+  mounted() {
+    const url = `http://uskumru.sabanciuniv.edu:5063/api/CompanyContoller/GetCompanyByDomain?domain=${localStorage.getItem("userDomain")}`;
+    axios.get(url)
+      .then(response => {
+        console.log(response.data);
+        this.company = response.data;
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  },
 }
+</script>
 
-  </script>
-  
-  <style>
-  .configure {
-    padding: 20px;
-    width: 30%;
-    margin: 0 auto;
-  }
-  .configure-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .form-group {
-    margin-bottom: 20px;
-    width: 100%;
-  }
+<style>
+.configure {
+  padding: 20px;
+  width: 30%;
+  margin: 0 auto;
+}
+.configure-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.form-group {
+  margin-bottom: 20px;
+  width: 100%;
+}
   label {
     font-size: 18px;
     margin-bottom: 10px;

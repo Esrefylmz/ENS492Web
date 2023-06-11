@@ -30,7 +30,7 @@
           console.error('buildID not found in local storage');
           return;
         }
-        fetch('http://localhost:5063/api/Rooms/PostRoom', {
+        fetch('http://uskumru.sabanciuniv.edu:5063/api/Rooms/PostRoom', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

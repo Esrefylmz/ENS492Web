@@ -92,7 +92,7 @@ export default {
       // Replace the API call with your own implementation to fetch buildings
       // Example implementation using fetch() API:
       const companyId = localStorage.getItem('companyID');
-      fetch(`http://localhost:5063/api/CRUD/GetBuildingByCompanyId?Id=${companyId}`)
+      fetch(`http://uskumru.sabanciuniv.edu:5063/api/CRUD/GetBuildingByCompanyId?Id=${companyId}`)
       //fetch('http://localhost:5063/api/CompanyContoller')
         .then(response => response.json())
         .then(data => {
@@ -115,7 +115,7 @@ export default {
     deleteBuilding(buildingId) {
     const confirmed = window.confirm("Are you sure you want to delete this building?");
     if (confirmed) {
-      fetch(`http://localhost:5063/api/CRUD/DeleteBuilding${buildingId}`, {
+      fetch(`http://uskumru.sabanciuniv.edu:5063/api/CRUD/DeleteBuilding${buildingId}`, {
         method: 'DELETE',
       })
       .then(response => {

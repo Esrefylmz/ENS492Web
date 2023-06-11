@@ -28,9 +28,8 @@
     data() {
       return {
         viewers: [
-          { name: 'Viwer1' },
-          { name: 'Viwer11' },
-          { name: 'Viwer111' }
+          { name: 'Viwer1' }
+
         ]
       }
     },
@@ -61,7 +60,7 @@
       fetchViewer() {
         console.log(localStorage.getItem("companyID"))
         const companyId = localStorage.getItem('companyID');
-        fetch(`http://localhost:5063/api/CompanyUsers/GetCompanyPendingViewersByCompanyId?id=${companyId}`)
+        fetch(`http://uskumru.sabanciuniv.edu:5063/api/CompanyUsers/GetCompanyPendingViewersByCompanyId?id=${companyId}`)
           .then(response => response.json())
           .then(data => {
             this.viewers = data
@@ -73,7 +72,7 @@
       editViewer(uID) {
         const confirmed = window.confirm("Are you sure you want to promote this user?");
         if (confirmed) {
-          fetch(`http://localhost:5063/api/CompanyUsers/ApprovePendingViewer?userId=${uID}`, {
+          fetch(`http://uskumru.sabanciuniv.edu:5063/api/CompanyUsers/ApprovePendingViewer?userId=${uID}`, {
             method: 'PUT',
           })
           .then(response => {
@@ -95,7 +94,7 @@
       deleteViewer(uID) {
         const confirmed = window.confirm("Are you sure you want to delete this user?");
         if (confirmed) {
-          fetch(`http://localhost:5063/api/CompanyUsers/DisapprovePendingViewer/${uID}`, {
+          fetch(`http://uskumru.sabanciuniv.edu:5063/api/CompanyUsers/DisapprovePendingViewer/${uID}`, {
             method: 'DELETE',
           })
             .then(response => {
